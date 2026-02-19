@@ -160,7 +160,7 @@ export class ArclytSiteStack extends cdk.Stack {
       authType: lambda.FunctionUrlAuthType.NONE, // Public access (CORS handled in Lambda)
       cors: {
         allowedOrigins: [`https://${config.domainName}`, `https://www.${config.domainName}`],
-        allowedMethods: [lambda.HttpMethod.POST, lambda.HttpMethod.OPTIONS],
+        allowedMethods: [lambda.HttpMethod.POST],
         allowedHeaders: ['Content-Type'],
         maxAge: cdk.Duration.seconds(3600),
       },

@@ -341,13 +341,13 @@ The contact form uses a Lambda Function URL with DynamoDB storage and SES email 
 
 1. **SES Email Verification** (required before deployment):
    - Go to AWS SES Console in `us-east-1`
-   - Verify the email address you want to receive submissions at (e.g., `hello@arclyt.io`)
+   - Verify the email address you want to receive submissions at (e.g., `connect@arclyt.io`)
    - If your AWS account is in SES sandbox mode, you can only send to verified emails
    - To send to any email, request production access in SES
 
 2. **Set Contact Email** (optional):
    ```bash
-   export CONTACT_EMAIL="hello@arclyt.io"
+   export CONTACT_EMAIL="connect@arclyt.io"
    ```
    Or set it in your environment before running `cdk deploy`.
 
