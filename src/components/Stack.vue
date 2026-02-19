@@ -10,12 +10,13 @@
     <div class="capabilities-grid">
       <div class="capability-block">
         <h3>Cloud &amp; Platforms</h3>
-        <p>Architecture-first cloud engineering, primarily on AWS (Lambda, API Gateway, DynamoDB/RDS, S3/CloudFront, Cognito), designed using AWS best practices for scalability, security, and cost control. We also support Azure and hybrid environments when required. Led by AWS Certified engineers, with a focus on architecture and long-term maintainability.</p>
+        <p>AWS-first cloud engineering with the flexibility to support Azure when needed.
+        Serverless, containers, and infrastructure as code—designed for security, cost control, and reliability.</p>
       </div>
 
       <div class="capability-block">
         <h3>App Engineering</h3>
-        <p>Modern TypeScript/JavaScript systems, well-defined APIs, secure identity patterns, and maintainable frontends—integrating cleanly with existing environments.</p>
+        <p>Modern TypeScript/JavaScript systems with clean APIs and maintainable frontends—built so teams can move fast without accumulating debt.</p>
       </div>
     </div>
 

@@ -3,12 +3,13 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="hero-card hero-card-left">
-        <h1>We build modern cloud systems designed to scale.</h1>
+        <h1>Modern cloud systems built to scale with you.</h1>
       </div>
 
       <div class="hero-card hero-card-right">
         <p class="lead">
-          Arclyt designs and builds modern cloud systems—custom applications and platforms grounded in strong architecture, delivered with clarity.
+          We help product teams ship reliable cloud software that's easy to evolve.
+          Strong foundations, clear ownership, and smooth handoffs—designed for delivery.
         </p>
 
         <div class="cta-row">
@@ -25,7 +26,7 @@
 import { ref } from 'vue'
 import ContactModal from './ContactModal.vue'
 
-const backgroundUrl = '/assets/backsplash2.jpg'
+const backgroundUrl = '/assets/hero.jpg'
 const isModalOpen = ref(false)
 
 const openModal = () => {

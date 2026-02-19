@@ -4,7 +4,7 @@
       <div>
         <h2>Services</h2>
       </div>
-      <p class="section-microline">From architecture to operations. Engineered for real systems.</p>
+      <p class="section-microline">From roadmap to reliability. Built to ship and keep systems running.</p>
     </div>
 
     <div class="grid">
@@ -31,7 +31,7 @@
           </svg>
         </div>
         <h3>Custom Application Development</h3>
-        <p>Web apps, internal tools, portals, dashboards, and SaaS features—built for real users and long-term maintainability.</p>
+        <p>Customer-facing apps and internal tools teams can iterate on quickly—without creating long-term maintenance drag.</p>
         <div class="card-meta">product engineering · web apps · apis</div>
       </div>
 
@@ -61,7 +61,7 @@
           </svg>
         </div>
         <h3>System &amp; Cloud Architecture</h3>
-        <p>System design, service boundaries, data modeling, security posture, and scaling strategy—grounded in cost and reliability.</p>
+        <p>Clear system design that prevents complexity from creeping in—so teams can move faster with fewer surprises.</p>
         <div class="card-meta">cloud-native · serverless · microservices</div>
       </div>
 
@@ -92,7 +92,7 @@
           </svg>
         </div>
         <h3>Modernization &amp; Migration</h3>
-        <p>Incremental legacy modernization: reduce risk, keep shipping, and migrate with a plan—not a rewrite cliff.</p>
+        <p>Modernize legacy systems without freezing delivery—reduce risk, improve stability, and keep shipping.</p>
         <div class="card-meta">refactoring · migration · stability</div>
       </div>
 
@@ -119,7 +119,7 @@
           </svg>
         </div>
         <h3>DevOps &amp; Infrastructure</h3>
-        <p>Infrastructure-as-code, CI/CD, environment strategy, and operational hardening for predictable releases.</p>
+        <p>Release automation and cloud infrastructure that make deployments routine, predictable, and safer.</p>
         <div class="card-meta">iac · ci/cd · release hygiene</div>
       </div>
 
@@ -148,7 +148,7 @@
           </svg>
         </div>
         <h3>Observability &amp; Reliability</h3>
-        <p>Logging, metrics, tracing, alerts, SLOs, and incident-readiness—so systems are measurable and calm.</p>
+        <p>Make systems measurable and calm—so issues are caught early and incidents are easier to resolve.</p>
         <div class="card-meta">monitoring · sre · alerting</div>
       </div>
 
@@ -180,7 +180,7 @@
           </svg>
         </div>
         <h3>Security-Minded Delivery</h3>
-        <p>Practical security: identity, secrets, least-privilege, auditability, and secure defaults built into the system.</p>
+        <p>Security built in from the start—identity, credentials, and access controls handled correctly.</p>
         <div class="card-meta">iam · secrets · secure by design</div>
       </div>
     </div>

@@ -4,8 +4,10 @@
       <div>
         <h2>Engineering</h2>
       </div>
-      <p class="section-microline">Architecture-first. Operational by design.</p>
+      <p class="section-microline">Built for teams that ship.</p>
     </div>
+
+    <p class="section-intro">We embed with teams to improve reliability and delivery speed—without sacrificing long-term maintainability.</p>
 
     <div class="capabilities-grid">
       <div class="capability-block">
@@ -28,11 +30,11 @@
         </div>
         <h3>System Architecture</h3>
         <ul class="capability-list">
-          <li>Domain modeling and boundary definition</li>
-          <li>Service decomposition and modular design</li>
-          <li>API and integration architecture</li>
-          <li>Event-driven and asynchronous systems</li>
-          <li>Scalable data strategies</li>
+          <li>Clear domain model and ownership boundaries</li>
+          <li>Modular services that stay maintainable</li>
+          <li>APIs and integrations that don't break easily</li>
+          <li>Event-driven patterns when they simplify scale</li>
+          <li>Data strategies that support growth</li>
         </ul>
       </div>
 
@@ -57,10 +59,10 @@
         </div>
         <h3>Reliability &amp; Operations</h3>
         <ul class="capability-list">
-          <li>Observability architecture</li>
-          <li>SLO-driven reliability design</li>
-          <li>Incident response structuring</li>
-          <li>Capacity and performance planning</li>
+          <li>Monitoring and tracing (logs, metrics, traces)</li>
+          <li>Reliability targets and alerting (SLOs)</li>
+          <li>Incident response and runbooks</li>
+          <li>Capacity planning and performance tuning</li>
           <li>Operational risk reduction</li>
         </ul>
       </div>
@@ -87,12 +89,11 @@
         </div>
         <h3>Cloud &amp; Infrastructure Architecture</h3>
         <ul class="capability-list">
-          <li>Multi-environment system design</li>
-          <li>Network and access boundary modeling</li>
+          <li>Multi-environment setup (dev/stage/prod)</li>
+          <li>Network and access boundary design</li>
           <li>Resilient deployment topology</li>
-          <li>Infrastructure as code</li>
-          <li>Deployment pipeline design</li>
-          <li>Infrastructure modernization</li>
+          <li>Infrastructure as code and pipelines</li>
+          <li>Incremental infrastructure modernization</li>
         </ul>
       </div>
 
@@ -122,7 +123,7 @@
         <ul class="capability-list">
           <li>Identity and access modeling</li>
           <li>Secrets and configuration strategy</li>
-          <li>Architectural threat surface reduction</li>
+          <li>Reduce attack surface by design</li>
           <li>Secure implementation review</li>
         </ul>
       </div>

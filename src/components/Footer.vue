@@ -7,7 +7,7 @@
 
       <div class="footer-center">
         <div class="small muted">
-          Architecture-led cloud engineering |  © {{ currentYear }} Arclyt
+          Cloud systems built to scale—with clarity. |  © {{ currentYear }} Arclyt
         </div>
       </div>
 
