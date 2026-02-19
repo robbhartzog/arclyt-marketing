@@ -18,7 +18,7 @@
           <div class="modal-body">
             <ContactForm form-id="modal" @success="handleSuccess" />
             <p class="contact-microcopy">
-              Or email: <a href="mailto:hello@arclyt.com">hello@arclyt.com</a><br/>
+              Or email: <a href="mailto:connect@arclyt.io">connect@arclyt.io</a><br/>
               Typical response time: 1–2 business days.
             </p>
             <p class="contact-trust">

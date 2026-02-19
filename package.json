@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "infra:install": "cd infra && npm install",
+    "infra:bootstrap": "cd infra && cdk bootstrap --region us-east-1",
+    "infra:deploy": "cd infra && npm run build && cdk deploy --all"
   },
   "dependencies": {
     "vue": "^3.4.21"

@@ -103,7 +103,7 @@
     </div>
 
     <div v-if="submitStatus === 'error'" class="form-status error">
-      <p>Something went wrong. Please try again or email us directly at hello@arclyt.com</p>
+      <p>Something went wrong. Please try again or email us directly at connect@arclyt.io</p>
     </div>
 
     <button type="submit" class="btn primary" :disabled="isSubmitting">
@@ -184,14 +184,25 @@ const handleSubmit = async () => {
   submitStatus.value = ''
 
   try {
-    // TODO: Replace this with your actual form submission endpoint
-    const response = await fetch('/api/contact', {
+    // Get Lambda Function URL from environment variable
+    // Set this in .env file: VITE_CONTACT_API_URL=https://your-lambda-url.lambda-url.us-east-1.on.aws
+    const apiUrl = import.meta.env.VITE_CONTACT_API_URL
+    if (!apiUrl) {
+      console.error('VITE_CONTACT_API_URL not configured. Please set it in .env file.')
+      submitStatus.value = 'error'
+      isSubmitting.value = false
+      return
+    }
+    
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(form),
     })
+
+    const data = await response.json()
 
     if (response.ok) {
       submitStatus.value = 'success'
@@ -201,16 +212,11 @@ const handleSubmit = async () => {
       })
       emit('success')
     } else {
-      throw new Error('Submission failed')
+      throw new Error(data.error || 'Submission failed')
     }
   } catch (error) {
-    // If endpoint doesn't exist, show success anyway (for development)
-    console.log('Form submission endpoint not configured. Form data:', form)
-    submitStatus.value = 'success'
-    Object.keys(form).forEach(key => {
-      form[key] = ''
-    })
-    emit('success')
+    console.error('Error submitting form:', error)
+    submitStatus.value = 'error'
   } finally {
     isSubmitting.value = false
   }
