@@ -15,4 +15,5 @@ export const config = {
   
   // Contact form configuration
   contactEmail: process.env.CONTACT_EMAIL || 'connect@arclyt.io', // Email to receive contact form submissions
+  fromEmail: 'noreply@arclyt.io', // FROM address for SES emails (must differ from contactEmail to avoid WorkMail loop rejection)
 };

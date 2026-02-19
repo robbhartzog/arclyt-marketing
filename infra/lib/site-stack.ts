@@ -141,7 +141,7 @@ export class ArclytSiteStack extends cdk.Stack {
       environment: {
         TABLE_NAME: contactTable.tableName,
         TO_EMAIL: config.contactEmail,
-        FROM_EMAIL: config.contactEmail,
+        FROM_EMAIL: config.fromEmail,
       },
     });
 
