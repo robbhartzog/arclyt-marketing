@@ -1,5 +1,12 @@
 <template>
   <footer>
+    <div class="footer-cta">
+      <button class="btn primary" @click="openModal">Schedule a Strategy Call</button>
+      <p class="footer-cta-sub">Discuss your migration goals or system architecture with an AWS Certified Engineer.</p>
+    </div>
+
+    <div class="footer-divider"></div>
+
     <div class="footer-grid">
       <div class="footer-left">
         <img :src="logoUrl" alt="Arclyt" class="logo-small" />
@@ -36,7 +43,6 @@
 import { ref } from 'vue'
 import ContactModal from './ContactModal.vue'
 
-// Logo is served from public folder
 const logoUrl = '/assets/arclyt_logo.png'
 const currentYear = ref(new Date().getFullYear())
 const isModalOpen = ref(false)
@@ -49,3 +55,26 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 </script>
+
+<style scoped>
+.footer-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 24px 36px;
+  text-align: center;
+}
+
+.footer-cta-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(240, 244, 255, 0.40);
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+
+.footer-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+</style>

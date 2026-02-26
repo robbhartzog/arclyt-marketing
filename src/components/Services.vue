@@ -91,9 +91,10 @@
             <path d="M 33 30 Q 60 20 85 40" stroke="#ff9000" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.9" />
           </svg>
         </div>
-        <h3>Modernization &amp; Migration</h3>
-        <p>Modernize legacy systems without freezing delivery—reduce risk, improve stability, and keep shipping.</p>
-        <div class="card-meta">refactoring · migration · stability</div>
+        <h3>Legacy Modernization &amp; Stability</h3>
+        <p>We specialize in stabilizing and evolving legacy ColdFusion and monolith environments. Our proven patterns migrate high-stakes infrastructure to modern AWS Serverless architectures without interrupting service.</p>
+        <div class="card-meta">coldfusion · strangler fig · serverless · stability</div>
+        <div class="card-specialty">Legacy-to-Cloud Specialist</div>
       </div>
 
       <div class="card">
@@ -189,3 +190,20 @@
 
 <script setup>
 </script>
+
+<style scoped>
+
+.card-specialty {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid rgba(240, 244, 255, 0.22);
+  background: transparent;
+  font-size: 0.70rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(240, 244, 255, 0.45);
+}
+</style>

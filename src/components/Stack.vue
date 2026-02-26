@@ -26,3 +26,22 @@
 
 <script setup>
 </script>
+
+<style scoped>
+section {
+  border-top: 1px solid rgba(47, 129, 247, 0.30);
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(47, 129, 247, 0.42);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(47, 129, 247, 0.10),
+    0 0 28px rgba(47, 129, 247, 0.08);
+}
+</style>

@@ -6,7 +6,7 @@
 	--muted: #b0bdd8;
 	--line: rgba(255, 255, 255, .12);
 	--accent: #6b9fff;
-	--accent2: #6de8c4;
+	--accent2: #2f81f7;
 	--shadow: 0 20px 60px rgba(0, 0, 0, .6);
 	--radius: 12px;
 	--max: 1080px;
@@ -33,7 +33,7 @@ body {
 	font-family: var(--sans);
 	background:
 		radial-gradient(1200px 600px at 15% -10%, rgba(107, 159, 255, .28), transparent 55%),
-		radial-gradient(900px 600px at 95% 0%, rgba(109, 232, 196, .20), transparent 50%),
+		radial-gradient(900px 600px at 95% 0%, rgba(47, 129, 247, .10), transparent 50%),
 		radial-gradient(900px 900px at 45% 110%, rgba(107, 159, 255, .12), transparent 60%),
 		var(--bg);
 	background-attachment: fixed;
@@ -318,7 +318,7 @@ a {
 	height: 8px;
 	border-radius: 99px;
 	background: var(--accent2);
-	box-shadow: 0 0 0 5px rgba(109, 232, 196, .18);
+	box-shadow: 0 0 0 5px rgba(47, 129, 247, .20);
 }
 
 /* Hero */
@@ -339,12 +339,7 @@ a {
 .hero-overlay {
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(
-		180deg,
-		rgba(10, 15, 26, .05) 0%,
-		rgba(10, 15, 26, .10) 50%,
-		rgba(10, 15, 26, .15) 100%
-	);
+	background: linear-gradient(to bottom, rgba(10, 11, 15, 0.2), rgba(10, 11, 15, 0.9));
 	z-index: 1;
 }
 
@@ -1100,7 +1095,7 @@ footer {
 .form-group select:focus,
 .form-group textarea:focus {
 	outline: none;
-	border-color: #7aa7ff;
+	border-color: #2f81f7;
 	background: rgba(19, 27, 46, 0.7);
 }
 
@@ -1139,9 +1134,9 @@ footer {
 }
 
 .form-status.success {
-	background: rgba(109, 232, 196, 0.1);
-	border: 1px solid rgba(109, 232, 196, 0.3);
-	color: #7ef0c1;
+	background: rgba(47, 129, 247, 0.08);
+	border: 1px solid rgba(47, 129, 247, 0.28);
+	color: #a8c8ff;
 }
 
 .form-status.error {

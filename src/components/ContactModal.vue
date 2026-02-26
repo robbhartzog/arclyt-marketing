@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, onMounted, onUnmounted, watch } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
 import ContactForm from './ContactForm.vue'
 
 const props = defineProps({

@@ -54,9 +54,10 @@ export class ArclytSiteStack extends cdk.Stack {
       : [config.domainName];
 
     // Create CloudFront distribution
-    // Create S3 origin with OAC - use S3Origin without OAC params, then configure OAC on origin
-    const s3Origin = new cloudfrontOrigins.S3Origin(this.bucket);
-    
+    const s3Origin = cloudfrontOrigins.S3BucketOrigin.withOriginAccessControl(this.bucket, {
+      originAccessControl: oac,
+    });
+
     this.distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
       defaultBehavior: {
         origin: s3Origin,
@@ -86,28 +87,6 @@ export class ArclytSiteStack extends cdk.Stack {
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100, // Use only North America and Europe
     });
 
-    // Configure OAC on the distribution's origin (after creation)
-    // S3Origin creates an OAI by default, so we need to override it with OAC
-    const cfnDistribution = this.distribution.node.defaultChild as cloudfront.CfnDistribution;
-    cfnDistribution.addPropertyOverride('DistributionConfig.Origins.0.OriginAccessControlId', oac.originAccessControlId);
-    // Remove OAI configuration if it exists
-    cfnDistribution.addPropertyDeletionOverride('DistributionConfig.Origins.0.S3OriginConfig.OriginAccessIdentity');
-
-    // Update bucket policy to allow CloudFront OAC access
-    this.bucket.addToResourcePolicy(
-      new iam.PolicyStatement({
-        sid: 'AllowCloudFrontOAC',
-        effect: iam.Effect.ALLOW,
-        principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],
-        actions: ['s3:GetObject'],
-        resources: [this.bucket.arnForObjects('*')],
-        conditions: {
-          StringEquals: {
-            'AWS:SourceArn': `arn:aws:cloudfront::${this.account}:distribution/${this.distribution.distributionId}`,
-          },
-        },
-      })
-    );
 
     // Deploy site files to S3
     new s3deploy.BucketDeployment(this, 'DeploySite', {
@@ -123,7 +102,7 @@ export class ArclytSiteStack extends cdk.Stack {
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.RETAIN, // Keep table on stack deletion
-      pointInTimeRecovery: true, // Enable PITR for data protection
+      pointInTimeRecoverySpecification: { pointInTimeRecoveryEnabled: true },
     });
 
     // Add GSI for querying by timestamp

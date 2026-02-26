@@ -94,8 +94,9 @@ Submission ID: {submission_id}
 Timestamp: {timestamp}
 """
             ses.send_email(
-                Source=FROM_EMAIL,
+                Source=f"Arclyt Connect <{FROM_EMAIL}>",
                 Destination={'ToAddresses': [TO_EMAIL]},
+                ReplyToAddresses=[email],
                 Message={
                     'Subject': {'Data': email_subject, 'Charset': 'UTF-8'},
                     'Body': {'Text': {'Data': email_body, 'Charset': 'UTF-8'}}

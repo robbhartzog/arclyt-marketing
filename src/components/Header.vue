@@ -43,61 +43,63 @@
   </header>
 </template>
 
+<style scoped>
+header {
+  backdrop-filter: blur(4px) saturate(160%);
+  -webkit-backdrop-filter: blur(4px) saturate(160%);
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 15, 26, 0.72),
+    rgba(10, 15, 26, 0.32)
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+</style>
+
 <script setup>
 import { ref } from 'vue'
 import ContactModal from './ContactModal.vue'
 
-// Logo is served from public folder
 const logoUrl = '/assets/arclyt_logo.png'
 const isMobileMenuOpen = ref(false)
 const isModalOpen = ref(false)
 
 const scrollToSection = (event) => {
-	event.preventDefault()
-	isMobileMenuOpen.value = false // Close mobile menu after clicking
-	const href = event.currentTarget.getAttribute('href')
-	if (href && href.startsWith('#')) {
-		const targetId = href.substring(1)
-		if (targetId === 'top') {
-			window.scrollTo({
-				top: 0,
-				behavior: 'smooth'
-			})
-		} else {
-			const targetElement = document.getElementById(targetId)
-			if (targetElement) {
-				const headerOffset = 80
-				const elementPosition = targetElement.getBoundingClientRect().top
-				const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-				
-				window.scrollTo({
-					top: offsetPosition,
-					behavior: 'smooth'
-				})
-			}
-		}
-	}
+  event.preventDefault()
+  isMobileMenuOpen.value = false
+  const href = event.currentTarget.getAttribute('href')
+  if (href && href.startsWith('#')) {
+    const targetId = href.substring(1)
+    if (targetId === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      const targetElement = document.getElementById(targetId)
+      if (targetElement) {
+        const headerOffset = 80
+        const elementPosition = targetElement.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+      }
+    }
+  }
 }
 
 const scrollToTop = (event) => {
-	event.preventDefault()
-	isMobileMenuOpen.value = false
-	window.scrollTo({
-		top: 0,
-		behavior: 'smooth'
-	})
+  event.preventDefault()
+  isMobileMenuOpen.value = false
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const toggleMobileMenu = () => {
-	isMobileMenuOpen.value = !isMobileMenuOpen.value
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 
 const openModal = () => {
-	isMobileMenuOpen.value = false // Close mobile menu if open
-	isModalOpen.value = true
+  isMobileMenuOpen.value = false
+  isModalOpen.value = true
 }
 
 const closeModal = () => {
-	isModalOpen.value = false
+  isModalOpen.value = false
 }
 </script>

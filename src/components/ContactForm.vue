@@ -49,14 +49,39 @@
       <label :for="`projectType-${formId}`">Project type</label>
       <select :id="`projectType-${formId}`" v-model="form.projectType">
         <option value="">Select...</option>
-        <option value="new-application">New application</option>
-        <option value="modernization">Modernization / migration</option>
-        <option value="cloud-architecture">Cloud architecture</option>
-        <option value="devops">DevOps / delivery</option>
-        <option value="reliability">Reliability / observability</option>
-        <option value="security">Security review</option>
-        <option value="not-sure">Not sure yet</option>
+        <optgroup label="── Modernization">
+          <option value="legacy-modernization">Legacy system modernization (ColdFusion / monolith)</option>
+        </optgroup>
+        <optgroup label="── Development">
+          <option value="cloud-native-dev">Cloud-native app development (Vue / Node / Serverless)</option>
+          <option value="saas-product">SaaS product development</option>
+          <option value="new-application">New application</option>
+        </optgroup>
+        <optgroup label="── Infrastructure">
+          <option value="infra-security-audit">Infrastructure &amp; security audit (AWS SysOps)</option>
+          <option value="cloud-migration">Cloud migration</option>
+          <option value="devops">DevOps / delivery</option>
+          <option value="reliability">Reliability / observability</option>
+        </optgroup>
+        <optgroup label="── Integration">
+          <option value="api-integration">Scalable API integration (event-driven)</option>
+          <option value="cloud-architecture">Cloud architecture</option>
+        </optgroup>
+        <optgroup label="──">
+          <option value="not-sure">Not sure yet</option>
+        </optgroup>
       </select>
+    </div>
+
+    <div class="form-group">
+      <label :for="`techStack-${formId}`">Current technology stack</label>
+      <input
+        type="text"
+        :id="`techStack-${formId}`"
+        v-model="form.techStack"
+        placeholder="e.g., ColdFusion, Legacy Node, On-prem SQL"
+        autocomplete="off"
+      />
     </div>
 
     <div class="form-group">
@@ -113,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted, defineProps, defineEmits } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   formId: {
@@ -129,6 +154,7 @@ const form = reactive({
   email: '',
   company: '',
   projectType: '',
+  techStack: '',
   budget: '',
   timeline: '',
   message: ''

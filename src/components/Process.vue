@@ -4,7 +4,7 @@
       <div>
         <h2>How we work</h2>
       </div>
-      <p class="section-microline">Simple process. Tight feedback loops. Clear ownership.</p>
+      <p class="section-microline">Engineering partner, not a vendor. Tight feedback loops. Clear ownership.</p>
     </div>
 
     <div class="grid">
@@ -72,8 +72,8 @@
           </svg>
         </div>
         <h3>Operate</h3>
-        <p>We ship with monitoring, documentation, and structured handoff.<br/>When appropriate, we stay to harden and extend.</p>
-        <div class="card-meta">Handoff · Operational readiness</div>
+        <p>We ship with full monitoring, documentation, and structured handoff. When growth demands it, we utilize our managed scale-up patterns to provide the exact engineering capacity your project requires, ensuring we stay to harden and extend as your partner.</p>
+        <div class="card-meta">Handoff · Operational readiness · Scale-up ready</div>
       </div>
     </div>
   </section>
@@ -81,3 +81,31 @@
 
 <script setup>
 </script>
+
+<style scoped>
+section {
+  border-top: 1px solid rgba(47, 129, 247, 0.30);
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(47, 129, 247, 0.42);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(47, 129, 247, 0.10),
+    0 0 28px rgba(47, 129, 247, 0.08);
+}
+
+.process-icon svg {
+  filter: drop-shadow(0 0 5px rgba(47, 129, 247, 0.22));
+  transition: filter 0.3s ease;
+}
+
+.card:hover .process-icon svg {
+  filter: drop-shadow(0 0 10px rgba(47, 129, 247, 0.48));
+}
+</style>
