@@ -41,6 +41,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { event } from 'vue-gtag'
 import ContactModal from './ContactModal.vue'
 
 const logoUrl = '/assets/arclyt_logo.png'
@@ -48,6 +49,7 @@ const currentYear = ref(new Date().getFullYear())
 const isModalOpen = ref(false)
 
 const openModal = () => {
+  event('cta_click', { cta_location: 'footer' })
   isModalOpen.value = true
 }
 
@@ -76,5 +78,30 @@ const closeModal = () => {
 
 .footer-divider {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Ghost CTA button */
+.btn.primary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.80);
+  color: #ffffff;
+  font-weight: 500;
+  padding: 10px 22px;
+  box-shadow: none;
+  transition: background 0.22s ease, border-color 0.22s ease,
+              color 0.22s ease, transform 0.2s ease;
+}
+.btn.primary:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+.btn.primary:active {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(255, 255, 255, 0.88);
+  color: #000000;
+  transform: translateY(0);
 }
 </style>

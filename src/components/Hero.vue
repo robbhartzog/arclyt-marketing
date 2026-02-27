@@ -26,12 +26,16 @@
 
 <script setup>
 import { ref } from 'vue'
+import { event } from 'vue-gtag'
 import ContactModal from './ContactModal.vue'
 
 const backgroundUrl = '/assets/hero.jpg'
 const isModalOpen   = ref(false)
 
-const openModal  = () => { isModalOpen.value = true }
+const openModal = () => {
+  event('cta_click', { cta_location: 'hero' })
+  isModalOpen.value = true
+}
 const closeModal = () => { isModalOpen.value = false }
 </script>
 
@@ -42,11 +46,11 @@ const closeModal = () => { isModalOpen.value = false }
   z-index: 2;
 }
 
-/* Ghost button — hollow white, fills dark on hover */
+/* Ghost button — hollow white, fills white on hover */
 .btn.primary {
   background: transparent;
-  border: 1px solid rgba(240, 244, 255, 0.65);
-  color: rgba(240, 244, 255, 0.90);
+  border: 1px solid rgba(255, 255, 255, 0.80);
+  color: #ffffff;
   font-weight: 500;
   box-shadow: none;
   transition: background 0.22s ease, border-color 0.22s ease,
@@ -54,17 +58,17 @@ const closeModal = () => { isModalOpen.value = false }
 }
 
 .btn.primary:hover {
-  background: #1e2433;
-  border-color: rgba(240, 244, 255, 0.85);
-  color: #ffffff;
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
   box-shadow: none;
   transform: translateY(-1px);
 }
 
 .btn.primary:active {
-  background: #2a3347;
-  border-color: rgba(240, 244, 255, 0.7);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(255, 255, 255, 0.88);
+  color: #000000;
   transform: translateY(0);
 }
 

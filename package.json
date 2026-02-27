@@ -8,10 +8,12 @@
     "preview": "vite preview",
     "infra:install": "cd infra && npm install",
     "infra:bootstrap": "cd infra && cdk bootstrap --region us-east-1",
-    "infra:deploy": "cd infra && npm run build && cdk deploy --all"
+    "infra:deploy": "cd infra && npm run build && cdk deploy --all",
+    "infra:deploy-site": "cd infra && npm run build && cdk deploy ArclytSiteStack"
   },
   "dependencies": {
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vue-gtag": "^3.7.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

@@ -111,7 +111,22 @@ export class ArclytSiteStack extends cdk.Stack {
       partitionKey: { name: 'timestamp', type: dynamodb.AttributeType.STRING },
     });
 
-    // Create Lambda function for contact form
+    // Shared CORS config for Lambda Function URLs
+    const corsConfig = {
+      allowedOrigins: [`https://${config.domainName}`, `https://www.${config.domainName}`],
+      allowedMethods: [lambda.HttpMethod.POST],
+      allowedHeaders: ['Content-Type'],
+      maxAge: cdk.Duration.seconds(3600),
+    };
+
+    // Shared SES policy
+    const sesPolicyStatement = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+      resources: ['*'],
+    });
+
+    // ── Contact form Lambda ──────────────────────────────────────────────────
     const contactHandler = new lambda.Function(this, 'ContactHandler', {
       runtime: lambda.Runtime.PYTHON_3_12,
       handler: 'contact-handler.lambda_handler',
@@ -124,25 +139,34 @@ export class ArclytSiteStack extends cdk.Stack {
       },
     });
 
-    // Grant Lambda permissions
     contactTable.grantWriteData(contactHandler);
-    contactHandler.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['ses:SendEmail', 'ses:SendRawEmail'],
-        resources: ['*'], // SES requires * for SendEmail action
-      })
-    );
+    contactHandler.addToRolePolicy(sesPolicyStatement);
 
-    // Create Function URL for Lambda
     const functionUrl = contactHandler.addFunctionUrl({
-      authType: lambda.FunctionUrlAuthType.NONE, // Public access (CORS handled in Lambda)
-      cors: {
-        allowedOrigins: [`https://${config.domainName}`, `https://www.${config.domainName}`],
-        allowedMethods: [lambda.HttpMethod.POST],
-        allowedHeaders: ['Content-Type'],
-        maxAge: cdk.Duration.seconds(3600),
+      authType: lambda.FunctionUrlAuthType.NONE,
+      cors: corsConfig,
+    });
+
+    // ── Strategy call scheduler Lambda ──────────────────────────────────────
+    const scheduleHandler = new lambda.Function(this, 'ScheduleHandler', {
+      runtime: lambda.Runtime.PYTHON_3_12,
+      handler: 'schedule-handler.lambda_handler',
+      code: lambda.Code.fromAsset('lambda'),
+      timeout: cdk.Duration.seconds(30),
+      environment: {
+        TABLE_NAME: contactTable.tableName,
+        TO_EMAIL: config.contactEmail,
+        FROM_EMAIL: config.fromEmail,
+        DOMAIN: config.domainName,
       },
+    });
+
+    contactTable.grantWriteData(scheduleHandler);
+    scheduleHandler.addToRolePolicy(sesPolicyStatement);
+
+    const scheduleFunctionUrl = scheduleHandler.addFunctionUrl({
+      authType: lambda.FunctionUrlAuthType.NONE,
+      cors: corsConfig,
     });
 
     // Outputs
@@ -176,6 +200,11 @@ export class ArclytSiteStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'ContactTableName', {
       value: contactTable.tableName,
       description: 'DynamoDB table name for contact submissions',
+    });
+
+    new cdk.CfnOutput(this, 'ScheduleFunctionUrl', {
+      value: scheduleFunctionUrl.url,
+      description: 'Lambda Function URL for strategy call scheduling — set as VITE_SCHEDULE_API_URL in .env',
     });
   }
 }
