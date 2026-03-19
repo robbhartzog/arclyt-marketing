@@ -11,6 +11,69 @@
 
     <div class="grid">
 
+      <!-- ── LifeHaus ── -->
+      <div class="card eng-card">
+        <div class="card-visual">
+          <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <title>Household Operating System</title>
+            <desc>House silhouette with sync nodes representing a multi-tenant family coordination platform</desc>
+            <!-- House body -->
+            <rect x="32" y="37" width="56" height="33" fill="currentColor" opacity="0.09"
+                  stroke="currentColor" stroke-width="1.5" stroke-opacity="0.22" />
+            <!-- Roof -->
+            <path d="M 26 37 L 60 10 L 94 37"
+                  stroke="currentColor" stroke-width="1.5" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round" opacity="0.28" />
+            <!-- Door -->
+            <rect x="52" y="54" width="16" height="16"
+                  fill="currentColor" opacity="0.10"
+                  stroke="currentColor" stroke-width="1" stroke-opacity="0.18" />
+            <!-- Hub node at roof peak (Cognito / API Gateway) -->
+            <circle cx="60" cy="10" r="4.5" fill="#7aa7ff" />
+            <circle cx="60" cy="10" r="9"   fill="none" stroke="#7aa7ff" stroke-width="1" opacity="0.22" />
+            <!-- Family member nodes inside house -->
+            <circle cx="44" cy="49" r="3.5" fill="#7aa7ff"    opacity="0.72" />
+            <circle cx="76" cy="49" r="3.5" fill="#ff9000"    opacity="0.75" />
+            <circle cx="60" cy="49" r="3"   fill="currentColor" opacity="0.30"
+                    stroke="currentColor" stroke-width="1.5" />
+            <!-- Spokes from members to hub -->
+            <line x1="44" y1="46" x2="57" y2="14"
+                  stroke="#7aa7ff" stroke-width="1.5" opacity="0.28" stroke-linecap="round" />
+            <line x1="76" y1="46" x2="63" y2="14"
+                  stroke="#ff9000" stroke-width="1.5" opacity="0.28" stroke-linecap="round" />
+            <!-- Real-time sync arc across members -->
+            <path d="M 44 49 Q 60 32 76 49"
+                  stroke="#7aa7ff" stroke-width="2" fill="none"
+                  stroke-linecap="round" opacity="0.80" />
+          </svg>
+        </div>
+        <h3>Family SaaS Ecosystem <span class="eng-client">LifeHaus</span></h3>
+        <div class="eng-rows">
+          <div class="eng-row">
+            <span class="eng-label">Challenge</span>
+            <p>Creating a multi-user family coordination platform that maintains enterprise-grade security and strict data isolation for thousands of households.</p>
+          </div>
+          <div class="eng-row">
+            <span class="eng-label">Solution</span>
+            <p>Engineered a serverless architecture using AWS Cognito for secure identity management and API Gateway / Lambda for high-performance, stateless processing. Built a multi-tenant data model to ensure privacy while maintaining sub-100ms response times for the Vue 3 frontend.</p>
+          </div>
+          <div class="eng-row eng-row--result">
+            <span class="eng-label eng-label--result">Result</span>
+            <p>Launched a scalable production SaaS with <span class="eng-metric">&lt;100ms</span> response times — a core IP asset for Arclyt that bridges complex enterprise patterns with consumer-facing simplicity.</p>
+          </div>
+        </div>
+        <div class="tags eng-stack">
+          <span class="tag">AWS</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Vue 3</span>
+          <span class="tag">Cognito</span>
+          <span class="tag">Lambda</span>
+          <span class="tag">DynamoDB</span>
+        </div>
+        <div class="card-meta">product engineering · saas · serverless architecture · ip portfolio</div>
+      </div>
+
+      <!-- ── Real-Time Analytics ── -->
       <div class="card eng-card">
         <div class="card-visual">
           <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -153,6 +216,17 @@
 </script>
 
 <style scoped>
+/* 2×2 grid for 4 cards — overrides the global 3-col .grid */
+.grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .eng-card {
   display: flex;
   flex-direction: column;
@@ -240,6 +314,24 @@
 
 .eng-card:hover .eng-stack {
   border-top-color: rgba(47, 129, 247, 0.18);
+}
+
+/* Client name sub-label in card title */
+.eng-client {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(47, 129, 247, 0.75);
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  padding: 2px 7px;
+  border: 1px solid rgba(47, 129, 247, 0.28);
+  border-radius: 99px;
+  background: rgba(47, 129, 247, 0.06);
 }
 
 /* Cobalt-bordered transparent tags */
