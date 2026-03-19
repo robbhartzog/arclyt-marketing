@@ -59,7 +59,7 @@
           </div>
           <div class="eng-row eng-row--result">
             <span class="eng-label eng-label--result">Result</span>
-            <p>Launched a scalable production SaaS with <span class="eng-metric">&lt;100ms</span> response times — a core IP asset for Arclyt that bridges complex enterprise patterns with consumer-facing simplicity.</p>
+            <p>Launched a scalable production SaaS with sub-100ms response times — a core IP asset for Arclyt that bridges complex enterprise patterns with consumer-facing simplicity.</p>
           </div>
         </div>
         <div class="tags eng-stack">
@@ -150,7 +150,7 @@
           </div>
           <div class="eng-row eng-row--result">
             <span class="eng-label eng-label--result">Result</span>
-            <p>Deployment frequency increased by <span class="eng-metric">+50%</span> and post-release issues reduced by <span class="eng-metric">25%</span>.</p>
+            <p>Deployment frequency increased by +50% and post-release issues reduced by 25%.</p>
           </div>
         </div>
         <div class="tags eng-stack">

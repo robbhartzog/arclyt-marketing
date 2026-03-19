@@ -1,5 +1,19 @@
 # Arclyt Site Deployment Guide
 
+## ⚡ Quick Deploy (Frontend Changes Only)
+
+Use this when you've only changed site code — no infrastructure changes needed.
+
+```powershell
+npm run build && aws s3 sync dist/ s3://arclyt-site-711305909128-us-east-1 --delete --region us-east-1 && aws cloudfront create-invalidation --distribution-id E3N0I6PH7QG06C --paths "/*"
+```
+
+~30 seconds. Skips CDK entirely.
+
+> For infrastructure changes (new Lambdas, env vars, DNS, etc.) use `npm run infra:deploy` instead.
+
+---
+
 This guide covers deploying the Arclyt marketing site to AWS using CDK.
 
 ## Prerequisites
