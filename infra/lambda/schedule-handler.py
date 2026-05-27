@@ -1,7 +1,22 @@
 import json
 import os
 import boto3
-from datetime import datetime
+from datetime import datetime, timezone
+
+try:
+    from zoneinfo import ZoneInfo as _ZoneInfo
+    _eastern = _ZoneInfo('America/New_York')
+    def _fmt_et(iso_utc: str) -> str:
+        """Format a UTC ISO string as a human-readable Eastern time, e.g. '9:00 AM EDT'."""
+        dt = datetime.fromisoformat(iso_utc.replace('Z', '+00:00'))
+        et = dt.astimezone(_eastern)
+        dst = et.dst()
+        abbr = 'EDT' if dst and dst.total_seconds() > 0 else 'EST'
+        hour = et.hour % 12 or 12
+        return f"{hour}:{et.strftime('%M')} {'AM' if et.hour < 12 else 'PM'} {abbr}"
+except Exception:
+    def _fmt_et(iso_utc: str) -> str:
+        return f"{iso_utc} UTC"
 
 dynamodb = boto3.resource('dynamodb')
 ses       = boto3.client('ses', region_name='us-east-1')
@@ -150,7 +165,7 @@ def build_user_confirmation_html(name: str, scheduled_date: str, scheduled_time:
                                      margin-bottom:4px;">Time</span>
                         <span style="font-size:15px;font-weight:600;color:#f0f4ff;
                                      font-family:'Courier New',Courier,monospace;">
-                          {scheduled_time} EST
+                          {scheduled_time}
                         </span>
                       </td>
                     </tr>
@@ -180,7 +195,7 @@ You're confirmed, {first_name}.
 Your 30-minute strategy call has been scheduled.
 
   Date: {scheduled_date}
-  Time: {scheduled_time} EST
+  Time: {scheduled_time}
 
 We look forward to discussing your architecture and migration goals.
 
@@ -250,7 +265,7 @@ def build_admin_notification_html(
                      border-bottom:1px solid rgba(47,129,247,0.15);">
             <span style="font-size:13px;font-weight:600;color:rgba(47,129,247,0.90);
                          font-family:'Courier New',Courier,monospace;">
-              {scheduled_date} &nbsp;&middot;&nbsp; {scheduled_time} EST
+              {scheduled_date} &nbsp;&middot;&nbsp; {scheduled_time}
             </span>
           </td>
         </tr>
@@ -318,7 +333,7 @@ def build_admin_notification_text(
         "ARCLYT — New Strategy Call Booking",
         "",
         f"  Date:    {scheduled_date}",
-        f"  Time:    {scheduled_time} EST",
+        f"  Time:    {scheduled_time}",
         f"  Status:  Scheduled",
         "",
         f"  Name:    {name}",
@@ -376,9 +391,12 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'Invalid email address'}),
             }
 
+        # Format time for emails (ET display) and normalise storage to UTC ISO
+        scheduled_time_display = _fmt_et(scheduled_time)
+
         # Build and store DynamoDB record
         submission_id = context.aws_request_id
-        timestamp     = datetime.utcnow().isoformat()
+        timestamp     = datetime.now(timezone.utc).isoformat()
 
         table = dynamodb.Table(TABLE_NAME)
         item  = {k: v for k, v in {
@@ -391,7 +409,7 @@ def lambda_handler(event, context):
             'company':       company  or None,
             'techStack':     tech_stack or None,
             'scheduledDate': scheduled_date,
-            'scheduledTime': scheduled_time,
+            'scheduledTime': scheduled_time,  # UTC ISO string
         }.items() if v is not None}
 
         table.put_item(Item=item)
@@ -410,13 +428,13 @@ def lambda_handler(event, context):
                     'Body': {
                         'Text': {
                             'Data': build_user_confirmation_text(
-                                name, scheduled_date, scheduled_time
+                                name, scheduled_date, scheduled_time_display
                             ),
                             'Charset': 'UTF-8',
                         },
                         'Html': {
                             'Data': build_user_confirmation_html(
-                                name, scheduled_date, scheduled_time
+                                name, scheduled_date, scheduled_time_display
                             ),
                             'Charset': 'UTF-8',
                         },
@@ -434,14 +452,14 @@ def lambda_handler(event, context):
                 ReplyToAddresses=[email],
                 Message={
                     'Subject': {
-                        'Data': f"Strategy Call: {name} — {scheduled_date} {scheduled_time}",
+                        'Data': f"Strategy Call: {name} — {scheduled_date} {scheduled_time_display}",
                         'Charset': 'UTF-8',
                     },
                     'Body': {
                         'Text': {
                             'Data': build_admin_notification_text(
                                 name, email, company, tech_stack,
-                                scheduled_date, scheduled_time,
+                                scheduled_date, scheduled_time_display,
                                 submission_id, timestamp,
                             ),
                             'Charset': 'UTF-8',
@@ -449,7 +467,7 @@ def lambda_handler(event, context):
                         'Html': {
                             'Data': build_admin_notification_html(
                                 name, email, company, tech_stack,
-                                scheduled_date, scheduled_time,
+                                scheduled_date, scheduled_time_display,
                                 submission_id, timestamp,
                             ),
                             'Charset': 'UTF-8',

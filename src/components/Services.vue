@@ -92,7 +92,7 @@
           </svg>
         </div>
         <h3>Legacy Modernization &amp; Stability</h3>
-        <p>We specialize in stabilizing and evolving legacy ColdFusion and monolith environments. Our proven patterns migrate high-stakes infrastructure to modern AWS Serverless architectures without interrupting service.</p>
+        <p>Arclyt specializes in stabilizing and evolving legacy ColdFusion and Lucee environments. Proven Strangler Fig patterns migrate high-stakes infrastructure to modern AWS Serverless architectures without interrupting service.</p>
         <div class="card-meta">coldfusion · strangler fig · serverless · stability</div>
         <div class="card-specialty">Legacy-to-Cloud Specialist</div>
       </div>
@@ -148,9 +148,9 @@
             <path d="M 25 45 Q 45 30 65 35" stroke="#ff9000" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.9" />
           </svg>
         </div>
-        <h3>Observability &amp; Reliability</h3>
-        <p>Make systems measurable and calm—so issues are caught early and incidents are easier to resolve.</p>
-        <div class="card-meta">monitoring · sre · alerting</div>
+        <h3>Production Reliability &amp; Monitoring</h3>
+        <p>Strengthen API contracts and enhance observability across production systems—so issues surface before they become incidents.</p>
+        <div class="card-meta">monitoring · api contracts · production observability</div>
       </div>
 
       <div class="card">

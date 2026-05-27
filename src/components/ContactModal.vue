@@ -362,42 +362,46 @@ const to12h = (t) => {
 
 // ── Timezone helpers ─────────────────────────────────────────────────
 
-/** User's local timezone abbreviation, e.g. "CST", "PST", "GMT+1" */
+/** User's local timezone abbreviation, e.g. "MST", "PST", "GMT+1" */
 const userTzAbbr = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
   .formatToParts(new Date())
   .find(p => p.type === 'timeZoneName')?.value ?? 'Local'
 
 /**
- * Converts an EST slot string ("10:00 AM") on a given ISO date to the
- * user's local time string ("11:00 AM" for CT, "8:00 AM" for PT, etc.).
- * Slots are always in America/New_York (handles EST/EDT automatically).
+ * Converts an EST slot string ("10:00 AM") + ISO date to a UTC Date.
+ * Uses America/New_York so EST/EDT is handled automatically.
  */
-const estToLocal = (isoDate, estSlot) => {
-  if (!isoDate || !estSlot) return estSlot
-  // Parse EST time to 24h
+const _estSlotToUTCDate = (isoDate, estSlot) => {
+  if (!isoDate || !estSlot) return null
   const match = estSlot.match(/(\d+):(\d+)\s*(AM|PM)?/i)
-  if (!match) return estSlot
+  if (!match) return null
   let h = Number(match[1])
   const m = Number(match[2])
   const period = match[3]?.toUpperCase()
   if (period === 'PM' && h !== 12) h += 12
   if (period === 'AM' && h === 12) h = 0
 
-  // Find New York UTC offset for this date (handles DST automatically)
   const [yr, mo, dy] = isoDate.split('-').map(Number)
-  const probe = new Date(Date.UTC(yr, (mo ?? 1) - 1, dy ?? 1, 12)) // noon UTC
+  const probe = new Date(Date.UTC(yr, (mo ?? 1) - 1, dy ?? 1, 12))
   const nyOffset = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York', timeZoneName: 'longOffset',
   }).formatToParts(probe).find(p => p.type === 'timeZoneName')?.value ?? 'GMT-05:00'
   const offsetMatch = nyOffset.match(/GMT([+-])(\d+):(\d+)/)
   const sign = offsetMatch?.[1] === '+' ? 1 : -1
   const offsetMin = sign * ((Number(offsetMatch?.[2] ?? 5)) * 60 + Number(offsetMatch?.[3] ?? 0))
-
-  // Convert NY local → UTC → user local
   const utcMin = h * 60 + m - offsetMin
-  const utcDate = new Date(Date.UTC(yr, (mo ?? 1) - 1, dy ?? 1, 0, utcMin))
-  return utcDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+  return new Date(Date.UTC(yr, (mo ?? 1) - 1, dy ?? 1, 0, utcMin))
 }
+
+/** Display label: EST slot converted to user's local time */
+const estToLocal = (isoDate, estSlot) => {
+  const d = _estSlotToUTCDate(isoDate, estSlot)
+  if (!d) return estSlot
+  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+}
+
+/** UTC ISO string for storage, e.g. "2026-04-20T13:00:00.000Z" */
+const estToUTC = (isoDate, estSlot) => _estSlotToUTCDate(isoDate, estSlot)?.toISOString() ?? null
 
 /** Display label for a stored EST slot in the user's local time */
 const displaySlot = (estSlot) => estToLocal(selectedISODate.value, estSlot)
@@ -522,7 +526,7 @@ const handleSubmit = async () => {
           techStack:     form.techStack || undefined,
           comments:      form.comments  || undefined,
           scheduledDate: selectedISODate.value,
-          scheduledTime: selectedTime.value,
+          scheduledTime: estToUTC(selectedISODate.value, selectedTime.value),
         }),
       }
     )
@@ -611,15 +615,65 @@ onUnmounted(() => {
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.70), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
   width: 100%;
   max-width: 860px;
-  /* Reset the global main.css min-height: calc(100vh - 48px) rule,
-     then pin height to content only. */
+  /* Reset the global main.css min-height: calc(100vh - 48px) rule */
   min-height: 0;
   height: fit-content;
-  max-height: calc(100vh - 64px);
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-self: flex-start;
+}
+
+/* Small phones: full-screen, contained */
+@media (max-width: 560px) {
+  .modal-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+  .modal-container {
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Header: text flows full-width, X pinned absolute top-right */
+  .modal-header {
+    position: relative;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 14px 52px 10px 16px; /* right pad makes room for absolute X */
+    gap: 4px;
+    background: #0d1117;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .modal-header-text {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+  }
+  .modal-steps {
+    flex: 0 0 100%;
+    margin-top: 4px;
+  }
+
+  .sched-panel {
+    padding: 14px 16px;
+  }
+  .sched-cal-panel {
+    min-width: 0;
+  }
+  .modal-body--form {
+    padding: 14px 16px 20px;
+  }
+  .modal-body--success {
+    padding: 40px 16px;
+  }
 }
 
 /* ── Header ────────────────────────────────────────────────────────── */

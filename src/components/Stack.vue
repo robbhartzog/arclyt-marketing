@@ -4,14 +4,13 @@
       <div>
         <h2>Adaptable by design</h2>
       </div>
-      <p class="section-microline">We meet you where you are — and make the next step clear.</p>
+      <p class="section-microline">Meet you where you are — and make the next step clear.</p>
     </div>
 
     <div class="capabilities-grid">
       <div class="capability-block">
         <h3>Cloud &amp; Platforms</h3>
-        <p>AWS-first cloud engineering with the flexibility to support Azure when needed.
-        Serverless, containers, and infrastructure as code—designed for security, cost control, and reliability.</p>
+        <p>AWS-first, multi-cloud capable. While the primary focus is AWS Serverless, Arclyt provides specialized architectural support for Azure and GCP environments—including hands-on experience building and managing Azure server infrastructure. For teams with existing multi-cloud footprints, the approach enforces consistency in Infrastructure as Code and security posture across all providers.</p>
       </div>
 
       <div class="capability-block">

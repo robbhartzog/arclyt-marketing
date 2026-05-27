@@ -7,7 +7,7 @@
       <p class="section-microline">Real problems. Measured outcomes.</p>
     </div>
 
-    <p class="section-intro">A sample of the work we've done—from modernizing brittle systems to building high-throughput data infrastructure.</p>
+    <p class="section-intro">A sample of engagements Arclyt has delivered—from stabilizing legacy systems to building high-throughput data infrastructure.</p>
 
     <div class="grid">
 
@@ -99,24 +99,24 @@
         <div class="eng-rows">
           <div class="eng-row">
             <span class="eng-label">Challenge</span>
-            <p>A fintech client's batch pipeline couldn't sustain sub-second dashboard latency across millions of daily transaction events.</p>
+            <p>An enterprise event management platform—serving Fortune 500 clients including AWS—relied on batch pipelines that couldn't sustain real-time reporting latency across millions of daily attendance and engagement records.</p>
           </div>
           <div class="eng-row">
             <span class="eng-label">Solution</span>
-            <p>Rebuilt ingestion with Kinesis and Lambda, backed by a read-optimized DynamoDB serving tier for the frontend.</p>
+            <p>Architected an asynchronous reporting pipeline using Kinesis, Lambda, and Redshift—with CloudFront-accelerated delivery and automated usage notifications replacing manual batch exports.</p>
           </div>
           <div class="eng-row eng-row--result">
             <span class="eng-label eng-label--result">Result</span>
-            <p>Dashboard latency fell from 4 minutes to under 800ms. System now processes 12M+ events per day with zero data loss.</p>
+            <p>Enabled scalable, real-time usage reporting across high-volume event data with consistent latency improvements and fully automated notification delivery.</p>
           </div>
         </div>
         <div class="tags eng-stack">
           <span class="tag">Kinesis</span>
           <span class="tag">Redshift</span>
           <span class="tag">Lambda</span>
-          <span class="tag">API Gateway</span>
+          <span class="tag">CloudFront</span>
         </div>
-        <div class="card-meta">streaming · kinesis · lambda · dynamodb</div>
+        <div class="card-meta">streaming · kinesis · redshift · cloudfront</div>
       </div>
 
       <div class="card eng-card">
@@ -142,24 +142,24 @@
         <div class="eng-rows">
           <div class="eng-row">
             <span class="eng-label">Challenge</span>
-            <p>Legacy SaaS platform requiring stabilized deployment pipelines and hardened credential security across a multi-stack environment.</p>
+            <p>A large-scale commercial real estate SaaS platform—serving over half a billion square feet of managed property—required stabilized deployment pipelines, hardened credential security, and a large-scale DNS infrastructure overhaul.</p>
           </div>
           <div class="eng-row">
             <span class="eng-label">Solution</span>
-            <p>Implemented CircleCI pipelines and AWS Secrets Manager, eliminating manual deployments and replacing hardcoded credentials site-wide.</p>
+            <p>Automated the migration of 2,500+ DNS records to Cloudflare via API scripting, implemented CircleCI pipelines across multiple codebases, and replaced all hardcoded credentials with AWS Secrets Manager.</p>
           </div>
           <div class="eng-row eng-row--result">
             <span class="eng-label eng-label--result">Result</span>
-            <p>Deployment frequency increased by +50% and post-release issues reduced by 25%.</p>
+            <p>Deployment frequency increased by +50% and post-release issues reduced by 25%. DNS migration eliminated manual record management across the full portfolio.</p>
           </div>
         </div>
         <div class="tags eng-stack">
           <span class="tag">ColdFusion</span>
-          <span class="tag">AWS</span>
+          <span class="tag">Cloudflare</span>
           <span class="tag">CircleCI</span>
           <span class="tag">Secrets Manager</span>
         </div>
-        <div class="card-meta">ci/cd · secrets management · coldfusion · aws</div>
+        <div class="card-meta">ci/cd · cloudflare api · secrets management · coldfusion</div>
       </div>
 
       <div class="card eng-card">
@@ -188,24 +188,24 @@
         <div class="eng-rows">
           <div class="eng-row">
             <span class="eng-label">Challenge</span>
-            <p>Unpredictable traffic spikes pushed over-provisioned payment infrastructure to $40k/month at idle, with no path to cost-effective scale.</p>
+            <p>An enterprise event management platform required a secure, reliable Amazon Pay integration with idempotency guarantees for high-value booking transactions across a distributed serverless environment.</p>
           </div>
           <div class="eng-row">
             <span class="eng-label">Solution</span>
-            <p>Migrated to API Gateway, Lambda, and Step Functions with idempotent payment state machines and dead-letter queue handling.</p>
+            <p>Implemented Node.js Lambda functions integrated with Amazon Pay for idempotent payment workflows—covering transaction validation, error recovery, and dead-letter queue processing.</p>
           </div>
           <div class="eng-row eng-row--result">
             <span class="eng-label eng-label--result">Result</span>
-            <p>Infrastructure costs fell 78%. The system now handles 0 to 50k concurrent transactions with zero manual scaling intervention.</p>
+            <p>Delivered a production-grade serverless payment system processing hundreds of thousands of dollars in event bookings with zero manual scaling and full transaction auditability.</p>
           </div>
         </div>
         <div class="tags eng-stack">
-          <span class="tag">Node.js 20</span>
+          <span class="tag">Node.js</span>
           <span class="tag">Amazon Pay</span>
-          <span class="tag">CloudFormation</span>
+          <span class="tag">Lambda</span>
           <span class="tag">Event-Driven</span>
         </div>
-        <div class="card-meta">api gateway · lambda · step functions · serverless</div>
+        <div class="card-meta">amazon pay · lambda · idempotency · serverless</div>
       </div>
 
     </div>
@@ -283,18 +283,6 @@
   color: rgba(240, 244, 255, 0.82);
   transition: color 0.3s ease;
   line-height: 1.7;
-}
-
-.eng-metric {
-  display: inline-block;
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.01em;
-  color: #ffffff;
-  vertical-align: baseline;
-  position: relative;
-  top: 0.05em;
 }
 
 .eng-card:hover .eng-row--result p {

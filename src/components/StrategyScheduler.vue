@@ -18,7 +18,7 @@
           </svg>
         </div>
         <h3>You're confirmed</h3>
-        <p class="success-slot-label">{{ selectedDateLabel }} &nbsp;&middot;&nbsp; {{ selectedTime }} EST</p>
+        <p class="success-slot-label">{{ selectedDateLabel }} &nbsp;&middot;&nbsp; {{ displaySlot(selectedTime) }} {{ userTzAbbr }}</p>
         <p class="success-sub">
           A confirmation will be sent to <strong>{{ form.email }}</strong>.<br>
           We look forward to speaking with you.
@@ -137,7 +137,7 @@
                 class="slot-pill"
                 :class="{ 'is-selected': selectedTime === slot }"
                 @click="selectTime(slot)"
-              >{{ slot }}</button>
+              >{{ displaySlot(slot) }}</button>
             </div>
 
             <p v-if="slotsError" class="slots-error-note">
@@ -154,7 +154,7 @@
                   <path d="M2 7H14" stroke="currentColor" stroke-width="1.5"/>
                   <path d="M5 1V4M11 1V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
-                <span>{{ selectedDateLabel }} &nbsp;&middot;&nbsp; {{ selectedTime }} EST</span>
+                <span>{{ selectedDateLabel }} &nbsp;&middot;&nbsp; {{ displaySlot(selectedTime) }} {{ userTzAbbr }}</span>
               </div>
               <button class="change-btn" @click="backToSlots">Change</button>
             </div>
@@ -283,6 +283,12 @@ const selectedDateLabel = computed(() => {
   })
 })
 
+const selectedISODate = computed(() => {
+  if (!selectedDate.value) return ''
+  const d = selectedDate.value
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+})
+
 // ── Day helpers ────────────────────────────────────────────
 const dateFor = (day) => new Date(currentYear.value, currentMonth.value, day)
 
@@ -332,6 +338,44 @@ const to12h = (t) => {
   const period = h >= 12 ? 'PM' : 'AM'
   return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${period}`
 }
+
+// ── Timezone helpers ───────────────────────────────────────────────────
+/** User's local timezone abbreviation, e.g. "MST", "PST" */
+const userTzAbbr = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
+  .formatToParts(new Date())
+  .find(p => p.type === 'timeZoneName')?.value ?? 'Local'
+
+/** Convert an EST slot string + ISO date to a UTC Date (handles EST/EDT automatically) */
+const _estSlotToUTCDate = (isoDate, estSlot) => {
+  if (!isoDate || !estSlot) return null
+  const match = estSlot.match(/(\d+):(\d+)\s*(AM|PM)?/i)
+  if (!match) return null
+  let h = Number(match[1])
+  const m = Number(match[2])
+  const period = match[3]?.toUpperCase()
+  if (period === 'PM' && h !== 12) h += 12
+  if (period === 'AM' && h === 12) h = 0
+  const [yr, mo, dy] = isoDate.split('-').map(Number)
+  const probe = new Date(Date.UTC(yr, (mo ?? 1) - 1, dy ?? 1, 12))
+  const nyOffset = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York', timeZoneName: 'longOffset',
+  }).formatToParts(probe).find(p => p.type === 'timeZoneName')?.value ?? 'GMT-05:00'
+  const offsetMatch = nyOffset.match(/GMT([+-])(\d+):(\d+)/)
+  const sign = offsetMatch?.[1] === '+' ? 1 : -1
+  const offsetMin = sign * ((Number(offsetMatch?.[2] ?? 5)) * 60 + Number(offsetMatch?.[3] ?? 0))
+  const utcMin = h * 60 + m - offsetMin
+  return new Date(Date.UTC(yr, (mo ?? 1) - 1, dy ?? 1, 0, utcMin))
+}
+
+/** Display label: EST slot in user's local time */
+const displaySlot = (estSlot) => {
+  const d = _estSlotToUTCDate(selectedISODate.value, estSlot)
+  if (!d) return estSlot
+  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+}
+
+/** UTC ISO string for storage, e.g. "2026-04-20T13:00:00.000Z" */
+const estToUTC = (isoDate, estSlot) => _estSlotToUTCDate(isoDate, estSlot)?.toISOString() ?? null
 
 // ── Available dates fetch (on mount) ──────────────────────
 const fetchAvailability = async () => {
@@ -434,8 +478,8 @@ const handleSubmit = async () => {
       email:         form.email,
       company:       form.company   || undefined,
       techStack:     form.techStack || undefined,
-      scheduledDate: selectedDateLabel.value,
-      scheduledTime: selectedTime.value,
+      scheduledDate: selectedISODate.value,
+      scheduledTime: estToUTC(selectedISODate.value, selectedTime.value),
     }
 
     const res = await fetch(apiUrl, {
@@ -467,6 +511,7 @@ const reset = () => {
 <style scoped>
 section {
   border-top: 1px solid rgba(47, 129, 247, 0.30);
+  overflow-x: hidden;
 }
 
 .sched-eyebrow {
@@ -490,6 +535,21 @@ section {
   .sched-layout {
     grid-template-columns: 1fr;
   }
+  .sched-cal-panel {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .sched-panel {
+    padding: 16px 14px;
+  }
+  .sched-steps {
+    gap: 5px;
+  }
+  .slots-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .sched-panel {
@@ -498,6 +558,7 @@ section {
   border-top: 1px solid rgba(47, 129, 247, 0.30);
   border-radius: 12px;
   padding: 24px;
+  min-width: 0;
 }
 
 /* ── Calendar ───────────────────────────────────────────── */

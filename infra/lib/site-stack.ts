@@ -58,6 +58,45 @@ export class ArclytSiteStack extends cdk.Stack {
       originAccessControl: oac,
     });
 
+    const responseHeadersPolicy = new cloudfront.ResponseHeadersPolicy(this, 'SecurityHeaders', {
+      responseHeadersPolicyName: 'arclyt-security-headers',
+      securityHeadersBehavior: {
+        contentSecurityPolicy: {
+          contentSecurityPolicy: [
+            "default-src 'none'",
+            "script-src 'self' https://www.googletagmanager.com",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data: https://www.google-analytics.com",
+            "font-src 'self'",
+            `connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.lambda-url.us-east-1.on.aws https://*.execute-api.us-east-1.amazonaws.com`,
+            "frame-src 'none'",
+            "object-src 'none'",
+            "base-uri 'self'",
+          ].join('; '),
+          override: true,
+        },
+        strictTransportSecurity: {
+          accessControlMaxAge: cdk.Duration.seconds(63072000),
+          includeSubdomains: true,
+          override: true,
+        },
+        contentTypeOptions: { override: true },
+        frameOptions: {
+          frameOption: cloudfront.HeadersFrameOption.DENY,
+          override: true,
+        },
+        xssProtection: {
+          protection: true,
+          modeBlock: true,
+          override: true,
+        },
+        referrerPolicy: {
+          referrerPolicy: cloudfront.HeadersReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN,
+          override: true,
+        },
+      },
+    });
+
     this.distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
       defaultBehavior: {
         origin: s3Origin,
@@ -66,6 +105,7 @@ export class ArclytSiteStack extends cdk.Stack {
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
         cachedMethods: cloudfront.CachedMethods.CACHE_GET_HEAD,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+        responseHeadersPolicy,
       },
       defaultRootObject: 'index.html',
       domainNames: certificate ? alternateDomainNames : undefined,
@@ -112,8 +152,10 @@ export class ArclytSiteStack extends cdk.Stack {
     });
 
     // Shared CORS config for Lambda Function URLs
+    const corsOrigins = [`https://${config.domainName}`];
+    if (config.enableWww) corsOrigins.push(`https://www.${config.domainName}`);
     const corsConfig = {
-      allowedOrigins: [`https://${config.domainName}`, `https://www.${config.domainName}`],
+      allowedOrigins: corsOrigins,
       allowedMethods: [lambda.HttpMethod.POST],
       allowedHeaders: ['Content-Type'],
       maxAge: cdk.Duration.seconds(3600),

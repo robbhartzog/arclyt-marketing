@@ -7,7 +7,7 @@
       <p class="section-microline">Built for teams that ship.</p>
     </div>
 
-    <p class="section-intro">We embed with teams to improve reliability and delivery speed—without sacrificing long-term maintainability.</p>
+    <p class="section-intro">Arclyt embeds with teams to improve reliability and delivery speed—without sacrificing long-term maintainability.</p>
 
     <div class="bento-grid">
 
@@ -36,7 +36,7 @@
               </svg>
             </div>
             <h3>Cloud Infrastructure &amp; Modernization</h3>
-            <p class="bento-desc">We bridge the gap between legacy systems and modern cloud-native environments—migrating on-prem, ColdFusion, and monolith architectures to resilient, serverless AWS infrastructure without disrupting live operations.</p>
+            <p class="bento-desc">Arclyt bridges the gap between legacy systems and modern cloud-native environments—migrating on-prem, ColdFusion, Lucee, and monolith architectures to resilient, serverless AWS infrastructure without disrupting live operations.</p>
           </div>
           <div class="bento-wide-right">
             <ul class="capability-list">
@@ -93,13 +93,13 @@
             <path d="M 20 45 Q 30 50 40 45" stroke="#7aa7ff" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.8" />
           </svg>
         </div>
-        <h3>Reliability &amp; Operations</h3>
+        <h3>Production Reliability &amp; Monitoring</h3>
         <ul class="capability-list">
-          <li>Monitoring and tracing (logs, metrics, traces)</li>
-          <li>Reliability targets and alerting (SLOs)</li>
-          <li>Incident response and runbooks</li>
-          <li>Capacity planning and performance tuning</li>
-          <li>Operational risk reduction</li>
+          <li>Monitoring and tracing across distributed systems</li>
+          <li>API contract hardening and production health checks</li>
+          <li>Incident response and operational runbooks</li>
+          <li>Performance tuning and capacity planning</li>
+          <li>Enhanced observability across production environments</li>
         </ul>
       </div>
 
@@ -133,7 +133,7 @@
       <div class="bento-block bento-block--callout">
         <span class="bento-eyebrow">Specialty</span>
         <h3>ColdFusion &amp; Legacy Migrations</h3>
-        <p class="bento-desc">Purpose-built patterns for teams moving off aging stacks—without disrupting live systems or halting feature delivery.</p>
+        <p class="bento-desc">Purpose-built Strangler Fig patterns for migrating ColdFusion, Lucee, and monolith environments to AWS Serverless—without disrupting live systems or halting feature delivery.</p>
         <div class="bento-tags">
           <span class="tag">ColdFusion</span>
           <span class="tag">Strangler Fig</span>
